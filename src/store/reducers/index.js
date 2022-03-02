@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import localStorage from 'redux-persist/lib/storage'
 //import sessionStorage from 'redux-persist/lib/storage/session'
 import user from './user'
+import clipboardHistory from './clipboardHistory'
 
 const reducers = combineReducers({
-  user
+  user,
+  clipboardHistory
 })
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: localStorage,
   whitelist: ['user'],
   //blacklist: []
 }

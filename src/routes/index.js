@@ -17,6 +17,7 @@ export default defineRoutes([
       { path: '*', element: <Navigate replace to="" /> },
     ]
   },
+  { path: 'clipboardHistories', component: () => import('../views/clipboardHistories') },
   { path: '/', extract: true, element: <Navigate replace to="/home" /> },
   { path: '*', element: <Navigate replace to="/404" /> },
 ])

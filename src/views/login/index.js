@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import { Button } from 'antd'
 import { connect } from 'react-redux'
+import { Button } from 'antd'
 
 export default connect(state => state)(class extends Component {
   //constructor () {
