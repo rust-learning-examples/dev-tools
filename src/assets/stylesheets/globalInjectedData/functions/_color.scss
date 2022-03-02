@@ -1,0 +1,37 @@
+// lighten()和darken()两个函数都是围绕颜色的亮度值做调整的，其中lighten()函数会让颜色变得更亮，与之相反的darken()函数会让颜色变得更暗
+
+/*
+ * 颜色变亮
+ * 亮度值可以是0%~100% 值越大越亮
+ * color-lighten(#f00, 50%)
+ */
+@function color-lighten($color, $amount: 0%) {
+  @return lighten($color, $amount);
+}
+
+/*
+ * 颜色变暗
+ * 亮度值可以是0%~100% 值越大越暗
+ * color-darken(#f00, 50%)
+ */
+@function color-darken($color, $amount: 0%) {
+  @return darken($color, $amount);
+}
+
+/*
+ * 颜色混合，生成新的颜色
+ * $weight 如果指定的比例是25%,这意味着第一个颜色所占比例为25%，第二个颜色所占比例为75%
+ * eg: color-mix(#f00, #0f0, 50%)
+ */
+@function color-mix($color1, $color2, $weight: 50%) {
+  @return darken($color, $amount);
+}
+
+/*
+ * 颜色混合，颜色增加透明度
+ * $weight 如果指定的比例是25%,这意味着第一个颜色所占比例为25%，第二个颜色所占比例为75%
+ * eg: color-rgba(#f00, .5)
+ */
+@function color-rgba($color, $alpha: 1) {
+  @return rgba($color, $alpha);
+}

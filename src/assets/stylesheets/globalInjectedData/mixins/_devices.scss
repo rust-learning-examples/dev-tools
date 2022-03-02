@@ -1,0 +1,102 @@
+$tablet-width: 768px;
+$desktop-width: 1024px;
+
+// mobile-device 0 - 767
+// tablet-device 768 - 1023
+// desktop-device 1024+
+// [-]及以下, [+]及以上
+$breakpoints: (
+  'mobile': 'only screen and (max-width: #{$tablet-width - 1px})', // 0..=767
+  'tablet': 'only screen and (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px})', // 768..=1023
+  'tablet+': 'only screen and (min-width: #{$tablet-width})', // 768...max
+  'tablet-': 'only screen and (max-width: #{$desktop-width - 1px})', // 0..=1023
+  'desktop': 'only screen and (min-width: #{$desktop-width})', // 1024...max
+  'retina': 'only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx)',
+  'print': 'print',
+) !default;
+
+@mixin media-responds-to($breakpoint) {
+  $query: map_get($breakpoints, $breakpoint);
+
+  @if not $query {
+    @error 'No value found for `#{$breakpoint}`. Please make sure it is defined in `$breakpoints` map.';
+  }
+  // stylelint-disable-next-line
+  @media #{if(type-of($query) == 'string', unquote($query), inspect($query))} {
+    @content;
+  }
+}
+
+//// 使用
+//html {
+//  @include media-responds-to('tablet-device+') {
+//    color: tomato;
+//  }
+//}
+//// 产出
+//@media only screen and (min-width: 768px) {
+//  html {
+//    color: tomato;
+//  }
+//}
+
+// ==============================================================
+//@mixin mobile-device {
+//  @media only screen and (max-width: #{$tablet-width - 1px}) {
+//    @content;
+//  }
+//}
+//
+//@mixin tablet-device {
+//  @media only screen and (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+//    @content;
+//  }
+//}
+//@mixin tablet-device-up {
+//  @media only screen and (min-width: #{$tablet-width}) {
+//    @content;
+//  }
+//}
+//@mixin tablet-device-down {
+//  @media only screen and (max-width: #{$desktop-width - 1px}) {
+//    @content;
+//  }
+//}
+//
+//@mixin desktop-device {
+//  @media only screen and (min-width: #{$desktop-width}) {
+//    @content;
+//  }
+//}
+//
+//@mixin retina-device {
+//  @media
+//  only screen and (min-device-pixel-ratio: 2),
+//  only screen and (min-resolution: 192dpi),
+//  only screen and (min-resolution: 2dppx) {
+//    @content;
+//  }
+//}
+//
+//@mixin print-device {
+//  @media print {
+//    @content;
+//  }
+//}
+
+//demo
+//p {
+//  font-size: 16px;
+//
+//  @include mobile-device {
+//    font-size: 16px;
+//  }
+//
+//  @include tablet-device {
+//    font-size: 18px;
+//  }
+//
+//  @include desktop-device {
+//    font-size: 20px;
+//  }
+//}

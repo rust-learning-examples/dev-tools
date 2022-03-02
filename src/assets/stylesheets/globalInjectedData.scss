@@ -1,0 +1,7 @@
+@import "globalInjectedData/variables";
+// mixins
+@import "globalInjectedData/mixins/base";
+@import "globalInjectedData/mixins/devices";
+@import "globalInjectedData/mixins/classes/disabled";
+// functions
+@import "globalInjectedData/functions/color";

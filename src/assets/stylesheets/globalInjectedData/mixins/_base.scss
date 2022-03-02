@@ -1,0 +1,15 @@
+@mixin when-inside($context) {
+  #{$context} & {
+    @content;
+  }
+}
+//// 使用
+//.foo {
+//  @include when-inside('#app') {
+//    animation: fadeIn 0.3s 1s forwards;
+//  }
+//}
+//// 产出
+//#app .foo {
+//  animation: fadeIn 0.3s 1s forwards;
+//}

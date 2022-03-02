@@ -1,0 +1,60 @@
+$border-color: #f2f2f2;
+
+table.table {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-align: left;
+  line-height: 1.4;
+
+  tr {
+    display: flex;
+    border-bottom: 1px solid $border-color;
+    flex: 1;
+
+    &:first-child {
+      border-top: 1px solid $border-color;
+    }
+  }
+
+  th, td {
+    flex: 1 0 0%;
+    padding: 5px 10px;
+    overflow: hidden;
+    // 单行省略
+    //text-overflow: ellipsis;
+    //white-space: nowrap;
+    // 多行省略
+    //display: -webkit-box;
+    //-webkit-line-clamp: 3;
+    //-webkit-box-orient: vertical;
+  }
+
+  &.text-overflow-ellipsis {
+    th, td {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &.border {
+    th, td {
+      border-left: 1px solid $border-color;
+
+      &:last-child {
+        border-right: 1px solid $border-color;
+      }
+    }
+  }
+}
+
+//<!--  <table class="table border text-overflow-ellipsis" style="width: 200px; margin: 0 auto;">-->
+//<!--    <tr>-->
+//<!--      <th style="flex-grow: 0.5;">序号</th>-->
+//<!--      <th>内容</th>-->
+//<!--    </tr>-->
+//<!--    <tr>-->
+//<!--      <td style="flex-grow: 0.5;">1</td>-->
+//<!--      <td>你好世界</td>-->
+//<!--    </tr>-->
+//<!--  </table>-->

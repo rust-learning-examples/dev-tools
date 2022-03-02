@@ -1,0 +1,27 @@
+@import "application/reset";
+@import "application/table";
+@import "application/layout";
+
+html {
+  .svg-icon {
+    max-width: 16px;
+    max-height: 16px;
+    fill: #333;
+    vertical-align: top;
+  }
+
+  .primary-color {
+    color: $primary-color;
+  }
+  .light-color {
+    color: #bbb;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .btn {
+    min-width: 120px;
+  }
+}

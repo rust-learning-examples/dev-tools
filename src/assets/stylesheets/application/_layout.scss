@@ -1,0 +1,11 @@
+.flex-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  .left-panel, .right-panel {
+    display: flex;
+    align-items: center;
+  }
+}

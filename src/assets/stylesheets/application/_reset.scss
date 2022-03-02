@@ -1,0 +1,13 @@
+html {
+  height: 100%;
+  box-sizing: border-box;
+  background: map_get($theme, 'page-bgColor');
+
+  *, *::before, *::after {
+    box-sizing: inherit;
+  }
+}
+
+body {
+  height: 100%; margin: 0;
+}
