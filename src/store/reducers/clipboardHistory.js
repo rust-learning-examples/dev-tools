@@ -5,24 +5,32 @@ const initData = {
   data: []
 }
 
+function generateUid(prefix = '', length = 5) {
+  const randStr = Math.random().toString(36)
+  const subRandomStr = randStr.substring(randStr.length - length)
+  return `${prefix}${new Date().toString(36)}${subRandomStr}`.toLowerCase()
+}
+
 const reducer = (state = {...initData}, action) => {
   switch (action.type) {
-    case 'addHistory':
+    case 'addClipboardHistory':
       return {
         ...state,
         data: [
-          ...state.data,
           {
+            type: action.payload.Text ? 'Text' : 'Image',
+            data: action.payload[action.payload.Text ? 'Text' : 'Image'],
             date: new Date(),
+            key: generateUid(),
             remark: '',
-            ...action.payload,
-          }
+          },
+          ...state.data,
         ]
       }
-    case 'delHistory':
+    case 'delClipboardHistory':
       return {
         ...state,
-        data: state.data.filter(i => i.date !== action.payload.date)
+        data: state.data.filter(i => i.key !== action.payload.key)
       }
     default:
       return state

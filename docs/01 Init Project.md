@@ -2,6 +2,8 @@
 yarn create tauri-app
 # 启动项目
 yarn tauri dev
+# 发布
+yarn tauri build
 ```
 
 ---
