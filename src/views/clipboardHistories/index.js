@@ -13,12 +13,14 @@ export default connect(state => state)(class extends Component {
     //return new Blob([content.buffer], {type: 'image/png'})
     return new Promise((resolve, reject) => {
       const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
       const context = canvas.getContext('2d')
       const imgData = context.createImageData(width, height)
       for (let i = 0; i < bytes.length; i++) {
         imgData.data[i] = bytes[i]
       }
-      context.putImageData(imgData, 10, 10)
+      context.putImageData(imgData, 0, 0)
       canvas.toBlob((blob) => {
         if (blob) resolve(blob)
         else reject()
@@ -29,12 +31,10 @@ export default connect(state => state)(class extends Component {
   async copyRecord(record) {
     if (record.type === 'Text') {
       writeTextToClipboard(record.data).then(() => {
-        this.deleteRecord(record)
         notification.success({message: '已拷贝'})
       })
     } else if (record.type === 'Image') {
       writeImageToClipboard(record.data).then(() => {
-        this.deleteRecord(record)
         notification.success({message: '已拷贝'})
       })
     }
@@ -58,7 +58,7 @@ export default connect(state => state)(class extends Component {
       dataIndex: 'data',
       render: (text, record) => {
        if (record.type === 'Text') {
-         return record.data
+         return <pre>{record.data}</pre>
        } else if (record.type === 'Image') {
          //const blob = await this.trnasRecordBytesToBlob(record)
          return <Image width={50} record={record} trnasRecordBytesToBlob={this.trnasRecordBytesToBlob} />

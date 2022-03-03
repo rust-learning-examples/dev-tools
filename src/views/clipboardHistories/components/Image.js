@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Image } from 'antd'
+import { Image, Space } from 'antd'
 
 export default class _ extends Component {
   constructor (props) {
@@ -18,6 +18,9 @@ export default class _ extends Component {
   }
   
   render() {
-    return this.state.loaded ? <Image width={this.props.width} src={this.blob} /> : null
+    return this.state.loaded ? <Space>
+      <Image width={100} src={this.blob} style={{maxHeight: '100px'}} onLoad={() => URL.revokeObjectURL(this.blob)}/>
+      <span>{this.props.record.data.width} X {this.props.record.data.height}</span>
+    </Space> : null
   }
 }
