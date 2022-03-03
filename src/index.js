@@ -9,7 +9,6 @@ import '@/assets/stylesheets/application.scss'
 import './index.less';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import './utils/native/Date'
 
 import { appWindow } from '@tauri-apps/api/window'
 appWindow.listen('currentClipboardValue', async event => {

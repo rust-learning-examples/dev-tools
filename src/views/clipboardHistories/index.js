@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import { Table, Tag, Space, Button, Popconfirm, notification } from 'antd'
+import { Table, Space, Button, Popconfirm, notification } from 'antd'
 import Image from './components/Image'
 import {writeTextToClipboard, writeImageToClipboard} from '@/utils/libs/Clipboard'
+import {strftime} from '@/utils/libs/date'
 
 export default connect(state => state)(class extends Component {
   async trnasRecordBytesToBlob(record) {
@@ -69,7 +70,7 @@ export default connect(state => state)(class extends Component {
     }, {
       title: '日期',
       dataIndex: 'date',
-      render: (text, record) => new Date(text).strftime()
+      render: (text, record) => strftime(new Date(text))
     }, {
       title: '操作',
       key: 'action',
