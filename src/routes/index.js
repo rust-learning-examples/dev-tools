@@ -18,7 +18,8 @@ export default defineRoutes([
     ]
   },
   { path: 'clipboardHistories', component: () => import('../views/clipboardHistories') },
-  { path: '/', extract: true, element: <Navigate replace to="/home" /> },
+  { path: 'scripts', component: () => import('../views/scripts') },
+  { path: '/', extract: true, element: <Navigate replace to="/clipboardHistories" /> },
   { path: '*', element: <Navigate replace to="/404" /> },
 ])
 

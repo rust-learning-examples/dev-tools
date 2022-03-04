@@ -15,23 +15,19 @@ const initData = {
 
 const reducer = (state = {...initData}, action) => {
   switch (action.type) {
-    case 'addClipboardHistory':
-      const type = action.payload.Text ? 'Text' : 'Image'
-      const data =  action.payload[type]
+    case 'addScriptItem':
       return {
         ...state,
         data: _.uniqBy([
           {
-            type,
-            data,
-            date: new Date(),
-            key: md5(type === 'Text' ? data : data.bytes),
-            remark: '',
+            ...action.payload,
+            key: md5(action.payload.shell),
+            date: new Date()
           },
           ...state.data,
         ], 'key')
       }
-    case 'delClipboardHistory':
+    case 'delScriptItem':
       return {
         ...state,
         data: state.data.filter(i => i.key !== action.payload.key)
@@ -42,7 +38,7 @@ const reducer = (state = {...initData}, action) => {
 }
 
 const clipboardHistoryPersistConfig = {
-  key: 'clipboardHistory',
+  key: 'script',
   storage: indexDBStorage('devToolsIndexDB'),
 }
 

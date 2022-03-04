@@ -4,10 +4,12 @@ import localStorage from 'redux-persist/lib/storage'
 //import sessionStorage from 'redux-persist/lib/storage/session'
 import user from './user'
 import clipboardHistory from './clipboardHistory'
+import script from './script'
 
 const reducers = combineReducers({
   user,
-  clipboardHistory
+  clipboardHistory,
+  script,
 })
 
 const persistConfig = {

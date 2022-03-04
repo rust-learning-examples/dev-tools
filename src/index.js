@@ -9,6 +9,8 @@ import '@/assets/stylesheets/application.scss'
 import './index.less';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import zhCN from 'antd/lib/locale/zh_CN'
+import { ConfigProvider } from 'antd'
 
 import { appWindow } from '@tauri-apps/api/window'
 appWindow.listen('currentClipboardValue', async event => {
@@ -23,7 +25,9 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Router>
-          <App />
+          <ConfigProvider locale={zhCN}>
+            <App />
+          </ConfigProvider>
         </Router>
       </PersistGate>
     </Provider>

@@ -82,7 +82,7 @@ export default connect(state => state)(class extends Component {
         </Space>
       ),
     },]
-    return <div className="page">
+    return <div className="page page-clipboard-histories">
       <Table
         columns={columns}
         dataSource={this.props.clipboardHistory.data}
