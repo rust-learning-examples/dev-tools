@@ -4,6 +4,7 @@ import _ from 'lodash'
 import indexDBStorage from 'redux-persist-indexeddb-storage'
 
 const initData = {
+  maxCount: 1000,
   data: []
 }
 
@@ -29,7 +30,7 @@ const reducer = (state = {...initData}, action) => {
             remark: action.payload.remark || '',
           },
           ...state.data,
-        ], 'key')
+        ], 'key').slice(0, state.maxCount)
       }
     }
     case 'updateClipboardHistory': {
@@ -56,6 +57,11 @@ const reducer = (state = {...initData}, action) => {
       return {
         ...state,
         data: []
+      }
+    case 'updateClipboardMaxCount':
+      return {
+        ...state,
+        maxCount: action.payload
       }
     default:
       return state

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import { Table, Space, Button, Popconfirm, notification, Input, Select } from 'antd'
+import { Table, Space, Button, Popconfirm, notification, Form as AForm, Input, Select, InputNumber } from 'antd'
 import { CopyOutlined } from '@ant-design/icons'
 import Image from './components/Image'
 import {writeTextToClipboard, writeImageToClipboard} from '@/utils/libs/Clipboard'
@@ -147,9 +147,12 @@ export default connect(state => state)(withModal(class extends Component {
           </Space>
         </div>
         <div className="right-panel">
-          <Popconfirm title="确定删除所有记录吗?" onConfirm={() => this.deleteAllRecords()}>
+          <Popconfirm title="确定清空所有记录吗?" onConfirm={() => this.deleteAllRecords()}>
             <Button danger type="link">清空记录</Button>
           </Popconfirm>
+          <AForm.Item label="最大记录数" style={{marginBottom: 0}}>
+            <InputNumber min={100} max={100 * 100} step={100} defaultValue={this.props.clipboardHistory.maxCount} onChange={value => this.props.dispatch({type: 'updateClipboardMaxCount', payload: value}) } />
+          </AForm.Item>
         </div>
       </div>
       <Table
