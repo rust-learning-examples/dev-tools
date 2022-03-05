@@ -13,7 +13,10 @@ export default connect(state => state)(withModal(class extends Component {
   constructor (props) {
     super(...arguments)
     this.state = {
-      running: false
+      running: false,
+      search: {
+        keyword: '',
+      }
     }
   }
   createRecord() {
@@ -103,12 +106,18 @@ export default connect(state => state)(withModal(class extends Component {
   }
   render() {
     const columns = [{
-      title: '内容',
-      dataIndex: 'shell',
-      render: (text, record) => <pre>{record.shell}</pre>
+      title: '序号',
+      dataIndex: 'idx',
+      render: (text, record, idx) => idx + 1
     }, {
       title: '备注',
       dataIndex: 'remark',
+    }, {
+      title: '内容',
+      dataIndex: 'shell',
+      render: (text, record) => <div className="shell">
+        <pre>{record.shell}</pre>
+      </div>
     }, {
       title: '日期',
       dataIndex: 'date',
@@ -126,16 +135,25 @@ export default connect(state => state)(withModal(class extends Component {
         </Space>
       ),
     },]
+    const dataSource = this.props.script.data.filter(item => {
+      const { search } = this.state
+      const matchKeyword = search.keyword ? (new RegExp(search.keyword, 'i').test(item.shell) || new RegExp(search.keyword, 'i').test(item.remark)) : true
+      return matchKeyword
+    })
     return <div className="page page-scripts">
       <div className="header flex-layout">
-        <div className="left-panel"></div>
+        <div className="left-panel">
+          <Space>
+            <Input value={this.state.search.keyword} onChange={(event) => this.setState({search: {...this.state.search, keyword: event.target.value}})} allowClear placeholder="包含内容"></Input>
+          </Space>
+        </div>
         <div className="right-panel">
           <Button type="primary" onClick={() => this.createRecord()}>新增</Button>
         </div>
       </div>
       <Table
         columns={columns}
-        dataSource={this.props.script.data}
+        dataSource={dataSource}
         rowKey={record => record.key}
       >
       </Table>

@@ -1,0 +1,25 @@
+.page-clipboard-histories {
+  .header {
+    padding: 15px;
+  }
+  .clipboard-data {
+    position: relative;
+    background: #f0f0f0;
+    padding: 5px 20px 5px 5px;
+    pre {
+      margin-bottom: 0;
+    }
+    .copy {
+      position: absolute;
+      top: 5px; right: 5px;
+      cursor: pointer;
+      display: none;
+    }
+
+    &:hover {
+      .copy {
+        display: inline-block;
+      }
+    }
+  }
+}

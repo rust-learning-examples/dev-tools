@@ -1,7 +1,7 @@
 {
   "package": {
     "productName": "dev-tools",
-    "version": "0.1.0"
+    "version": "0.0.1"
   },
   "build": {
     "distDir": "../build",
@@ -58,7 +58,7 @@
     },
     "windows": [
       {
-        "title": "Tauri App",
+        "title": "DevTools",
         "width": 800,
         "height": 600,
         "resizable": true,

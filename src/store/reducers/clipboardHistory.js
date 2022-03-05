@@ -15,26 +15,47 @@ const initData = {
 
 const reducer = (state = {...initData}, action) => {
   switch (action.type) {
-    case 'addClipboardHistory':
+    case 'addClipboardHistory': {
       const type = action.payload.Text ? 'Text' : 'Image'
-      const data =  action.payload[type]
+      const data = action.payload.data || action.payload[type]
       return {
         ...state,
         data: _.uniqBy([
           {
             type,
-            data,
-            date: new Date(),
+            data: data,
+            date: action.payload.date || new Date(),
             key: md5(type === 'Text' ? data : data.bytes),
-            remark: '',
+            remark: action.payload.remark || '',
           },
           ...state.data,
         ], 'key')
       }
+    }
+    case 'updateClipboardHistory': {
+      const { preRecord, newRecord } = action.payload
+      const data = [...state.data]
+      const item = data.find(i => i.key === preRecord.key)
+      if (item) {
+        const idx = data.indexOf(item)
+        const newItem = Object.assign({}, item, {...newRecord})
+        newItem.key = md5(item.data)
+        data.splice(idx, 1, newItem)
+      }
+      return {
+        ...state,
+        data: _.uniqBy(data, 'key')
+      }
+    }
     case 'delClipboardHistory':
       return {
         ...state,
         data: state.data.filter(i => i.key !== action.payload.key)
+      }
+    case 'clearClipboardHistory':
+      return {
+        ...state,
+        data: []
       }
     default:
       return state

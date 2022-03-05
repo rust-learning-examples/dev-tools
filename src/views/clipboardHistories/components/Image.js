@@ -19,7 +19,9 @@ export default class _ extends Component {
   
   render() {
     return this.state.loaded ? <Space>
-      <Image width={100} src={this.blob} style={{maxHeight: '100px'}} onLoad={() => URL.revokeObjectURL(this.blob)}/>
+      {/*revokeObjectURL后无法预览*/}
+      {/*<Image width={100} src={this.blob} style={{maxHeight: '100px'}} onLoad={() => URL.revokeObjectURL(this.blob)}/>*/}
+      <Image width={100} src={this.blob} style={{maxHeight: '100px'}} />
       <span>{this.props.record.data.width} X {this.props.record.data.height}</span>
     </Space> : null
   }
