@@ -13,6 +13,10 @@ import zhCN from 'antd/lib/locale/zh_CN'
 import { ConfigProvider } from 'antd'
 
 import { appWindow } from '@tauri-apps/api/window'
+// https://tauri.studio/docs/api/js/modules/event#eventname
+appWindow.listen('tauri://close-requested', () => {
+  appWindow.hide();
+})
 appWindow.listen('currentClipboardValue', async event => {
   store.dispatch({
     type: 'addClipboardHistory',

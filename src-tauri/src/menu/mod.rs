@@ -2,12 +2,13 @@
 use tauri::{Menu, MenuItem, Submenu, CustomMenuItem};
 
 pub fn create_menu() -> Menu {
-    let about_menu = Submenu::new("App", Menu::new()
+    let about_menu = Submenu::new("DevTools", Menu::new()
         .add_native_item(MenuItem::Hide)
         .add_native_item(MenuItem::HideOthers)
         .add_native_item(MenuItem::ShowAll)
         .add_native_item(MenuItem::Separator)
-        .add_native_item(MenuItem::Quit));
+        .add_native_item(MenuItem::CloseWindow));
+        // .add_native_item(MenuItem::Quit));
 
     let edit_menu = Submenu::new("Edit", Menu::new()
         .add_native_item(MenuItem::Undo)
