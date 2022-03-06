@@ -19,27 +19,6 @@ export default connect(state => state)(withModal(class extends Component {
       }
     }
   }
-  async trnasRecordBytesToBlob(record) {
-    const { bytes, width, height } = record.data
-    //console.log(444, bytes, width, height)
-    //const content = new Uint8Array(bytes)
-    //return new Blob([content.buffer], {type: 'image/png'})
-    return new Promise((resolve, reject) => {
-      const canvas = document.createElement('canvas')
-      canvas.width = width
-      canvas.height = height
-      const context = canvas.getContext('2d')
-      const imgData = context.createImageData(width, height)
-      for (let i = 0; i < bytes.length; i++) {
-        imgData.data[i] = bytes[i]
-      }
-      context.putImageData(imgData, 0, 0)
-      canvas.toBlob((blob) => {
-        if (blob) resolve(blob)
-        else reject()
-      })
-    })
-  }
   
   async copyRecord(record) {
     if (record.type === 'Text') {
@@ -110,7 +89,7 @@ export default connect(state => state)(withModal(class extends Component {
          </div>
        } else if (record.type === 'Image') {
          //const blob = await this.trnasRecordBytesToBlob(record)
-         return <Image width={50} record={record} trnasRecordBytesToBlob={this.trnasRecordBytesToBlob} />
+         return <Image width={50} record={record} />
        }
       }
     }, {
@@ -141,8 +120,8 @@ export default connect(state => state)(withModal(class extends Component {
           <Space>
             <Input value={this.state.search.keyword} onChange={(event) => this.setState({search: {...this.state.search, keyword: event.target.value}})} allowClear placeholder="包含内容"></Input>
             <Select defaultValue={this.state.search.type} style={{ width: 120 }} onChange={(value) => this.setState({search: {...this.state.search, type: value}})} allowClear placeholder="类型">
-              <Select.Option value="Text">Text</Select.Option>
-              <Select.Option value="Image">Image</Select.Option>
+              <Select.Option value="Text">文本</Select.Option>
+              <Select.Option value="Image">图片</Select.Option>
             </Select>
           </Space>
         </div>

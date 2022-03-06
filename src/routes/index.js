@@ -18,6 +18,7 @@ export default defineRoutes([
     ]
   },
   { path: 'clipboardHistories', component: () => import('../views/clipboardHistories') },
+  { path: 'shortcutClipboardHistories', component: () => import('../views/shortcutClipboardHistories') },
   { path: 'scripts', component: () => import('../views/scripts') },
   { path: '/', extract: true, element: <Navigate replace to="/clipboardHistories" /> },
   { path: '*', element: <Navigate replace to="/404" /> },
@@ -32,7 +33,7 @@ export function defineRoutes(routes) {
       const item = { component: lazy(route.component) }
       //delete route.component
       route.element = (
-        <Suspense fallback={ <div>路由加载中...</div> }>
+        <Suspense fallback={ <div>Loading...</div> }>
           <item.component />
         </Suspense>
       )

@@ -1,6 +1,6 @@
 {
   "name": "dev-tools",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -38,6 +38,7 @@
     "js-md5": "^0.7.3",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.4.5",
+    "moment": "^2.29.1",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "postcss": "^8.4.4",

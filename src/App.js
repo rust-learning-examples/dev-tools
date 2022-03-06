@@ -8,7 +8,7 @@ function App(props) {
   const location = useLocation()
   return (
     <Layout>
-      <Layout.Header>
+      { ['/shortcutClipboardHistories'].indexOf(location.pathname) === -1 ? <Layout.Header>
         <Space>
           {
             [
@@ -28,7 +28,7 @@ function App(props) {
         {/*  <li><Link to="/clipboardHistories">剪切板记录</Link></li>*/}
         {/*  <li><Link to="/scripts">脚本</Link></li>*/}
         {/*</ul>*/}
-      </Layout.Header>
+      </Layout.Header> : null}
       <Layout.Content>
         <Routes>
           { routes.map(route => (

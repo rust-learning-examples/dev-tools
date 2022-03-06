@@ -43,6 +43,7 @@ fn main() {
             } => {
                 let window = app.get_window("main").unwrap();
                 window.show().unwrap();
+                window.set_focus().unwrap();
             }
             // SystemTrayEvent::RightClick {
             //     position: _,
@@ -79,6 +80,9 @@ fn main() {
         })
         .menu(menu::create_menu())
         .setup(|app| {
+            #[cfg(target_os = "macos")]
+            app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+
             let main_window = app.get_window("main").unwrap();
             let window_clone = main_window.clone();
             // clipboard
@@ -89,10 +93,10 @@ fn main() {
                     for _exists_msg in rx {
                         if let Ok(text) = clipboard.get_text() {
                             // println!("text: {:?}", text);
-                            window_clone.emit("currentClipboardValue", ClipboardContentValue::Text(text)).unwrap()
+                            window_clone.emit("currentClipboardValue", ClipboardContentValue::Text(text)).unwrap();
                         } else if let Ok(image) = clipboard.get_image() {
                             // println!("image");
-                            window_clone.emit("currentClipboardValue", ClipboardContentValue::Image(image)).unwrap()
+                            window_clone.emit("currentClipboardValue", ClipboardContentValue::Image(image)).unwrap();
                         }
                     }
                 }

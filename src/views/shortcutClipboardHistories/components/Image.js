@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import { Image, Space } from 'antd'
 
 export default class _ extends Component {
   constructor (props) {
@@ -40,11 +39,11 @@ export default class _ extends Component {
   }
   
   render() {
-    return this.state.loaded ? <Space>
+    return this.state.loaded ? <div>
       {/*revokeObjectURL后无法预览*/}
-      {/*<Image width={100} src={this.blob} style={{maxHeight: '100px'}} onLoad={() => URL.revokeObjectURL(this.blob)}/>*/}
-      <Image width={100} src={this.blob} style={{maxHeight: '100px'}} />
       <span>{this.props.record.data.width}X{this.props.record.data.height}</span>
-    </Space> : null
+      <img className="image" src={this.blob} alt="图片" onLoad={() => URL.revokeObjectURL(this.blob)} />
+      {/*<Image width={100} src={this.blob} style={{maxHeight: '100px'}} />*/}
+    </div> : null
   }
 }
