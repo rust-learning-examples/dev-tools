@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, createRef} from 'react'
 
 export default class _ extends Component {
   constructor (props) {
@@ -7,6 +7,7 @@ export default class _ extends Component {
     this.state = {
       loaded: false
     }
+    this.imageRef = createRef()
   }
   
   async trnasRecordBytesToBlob(record) {
@@ -27,7 +28,7 @@ export default class _ extends Component {
       canvas.toBlob((blob) => {
         if (blob) resolve(blob)
         else reject()
-      })
+      }, 'image/jpeg', 0.5)
     })
   }
   
@@ -39,11 +40,15 @@ export default class _ extends Component {
   }
   
   render() {
-    return this.state.loaded ? <div>
-      {/*revokeObjectURL后无法预览*/}
-      <span>{this.props.record.data.width}X{this.props.record.data.height}</span>
-      <img className="image" src={this.blob} alt="图片" onLoad={() => URL.revokeObjectURL(this.blob)} />
-      {/*<Image width={100} src={this.blob} style={{maxHeight: '100px'}} />*/}
-    </div> : null
+    /*revokeObjectURL后无法预览*/
+    /*<span>{this.props.record.data.width}X{this.props.record.data.height}</span>*/
+    const { width, height } = this.props.record.data
+    return this.state.loaded ? <img
+      ref={this.imageRef}
+      className="image"
+      src={this.blob} alt="图片"
+      onMouseOver={() => this.imageRef.current.style=`transform: scale(1.8); transform-origin: ${ width >= height ? 'left center' : 'center top' }`}
+      onMouseOut={() => this.imageRef.current.style=`transform: scale(1)`}
+      onLoad={() => URL.revokeObjectURL(this.blob)} /> : null
   }
 }

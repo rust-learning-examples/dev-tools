@@ -28,7 +28,7 @@ export default class _ extends Component {
       canvas.toBlob((blob) => {
         if (blob) resolve(blob)
         else reject()
-      })
+      }, 'image/png', 0.8)
     })
   }
   

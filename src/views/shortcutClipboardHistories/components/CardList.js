@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import { Card } from 'antd'
 import { WebviewWindow } from '@tauri-apps/api/window'
 import * as tauriEvent from '@tauri-apps/api/event'
@@ -20,6 +20,7 @@ export default class _ extends Component {
       activeRecord: null,
     }
     this.curWindow = WebviewWindow.getByLabel('ShortcutClipboardHistories')
+    this.scrollElRef = createRef()
   }
   
   copyRecord = async (record) => {
@@ -37,26 +38,26 @@ export default class _ extends Component {
       })
     }
     if (this.curWindow) {
-      await this.curWindow.hide()
+      await this.hideWindow()
     }
   }
   
   hideWindow = async () => {
-    if (this.scrollEl) this.scrollEl.scrollLeft = 0
+    if (this.scrollElRef?.current) this.scrollElRef.current.scrollLeft = 0
     if (this.curWindow) await this.curWindow.hide()
   }
   
   onScrollElWheel = (event) => {
     if (!event.deltaX) {
       event.preventDefault()
-      this.scrollEl.scrollBy({
+      this.scrollElRef.current.scrollBy({
         left: event.deltaY * 5,
       })
     }
   }
   
   componentDidMount () {
-    withDragScroll(this.scrollEl, {horizontal: true})
+    withDragScroll(this.scrollElRef.current, {horizontal: true})
     globalShortcut.isRegistered("ESC").then(async isRegistered => {
       if (!isRegistered) {
         await globalShortcut.register("ESC", async () => {
@@ -68,7 +69,7 @@ export default class _ extends Component {
     this.curWindow?.listen('tauri://blur', async (...args) => {
       await this.hideWindow()
     })
-    this.scrollEl.addEventListener('wheel', this.onScrollElWheel)
+    this.scrollElRef.current.addEventListener('wheel', this.onScrollElWheel)
     // 监听mainWindow传过来的新clipboard数据
     tauriEvent.listen('addClipboardHistory', (event) => {
       this.props.dispatch({
@@ -79,27 +80,27 @@ export default class _ extends Component {
   }
   
   componentWillUnmount () {
-    this.scrollEl.removeEventListener('wheel', this.onScrollElWheel)
+    this.scrollElRef.current.removeEventListener('wheel', this.onScrollElWheel)
   }
   
   render () {
-    return <div className="card-list" ref={ el => this.scrollEl = el }>
+    return <div className="card-list" ref={ this.scrollElRef }>
       { this.props.dataSource.map(record => {
         const color = (regex.colorRegex.test(record.data) ? record.data : 'inherit').replace(/^0x/i, '#')
         return <Card
           size="small"
-          title={ record.type === 'Text' ? '文本' : '图片' }
+          title={ record.type === 'Text' ? '文本' : <div>图片(<span>{record.data.width}X{record.data.height}</span>)</div> }
           extra={ <span className="time">{moment(new Date(record.date)).fromNow()}</span> }
           key={ record.key }
           className={`item ${ record === this.state.activeRecord ? 'active' : ''}`}
           hoverable
-          bodyStyle={ { width: '100%', height: '100%', padding: '5px', flex: 1, overflow: 'hidden', background: color } }
+          bodyStyle={ { width: '100%', height: '250px', padding: '5px', flex: 1, overflow: 'hidden', background: color } }
           onClick={ () => this.setState({activeRecord: record})}
           onDoubleClick={ () => this.copyRecord(record) }
         >
-          { record.type === 'Text' ? <pre>
-              { record.data }
-            </pre> : <Image record={ record }/>
+          { record.type === 'Text' ? <pre>{ record.data }</pre> : <div className="image-container">
+            <Image record={ record }/>
+          </div>
           }
         </Card>
       })

@@ -1,8 +1,13 @@
-import { appWindow, WebviewWindow, LogicalPosition } from '@tauri-apps/api/window'
+import { appWindow, WebviewWindow, LogicalPosition, getCurrent } from '@tauri-apps/api/window'
 import * as tauriEvent from '@tauri-apps/api/event'
 import * as notification from '@tauri-apps/api/notification'
 import * as globalShortcut from '@tauri-apps/api/globalShortcut'
 export async function initTauriApp({store}) {
+  const currentWindow = getCurrent()
+  if (currentWindow.label !== 'main') {
+    return
+  }
+  
   // https://tauri.studio/docs/api/js/modules/event#eventname
   appWindow.listen('tauri://close-requested', () => {
     appWindow.hide();
@@ -31,6 +36,7 @@ export async function initTauriApp({store}) {
   }
   // new window  https://github.com/tauri-apps/tauri/issues/1643
   // window options https://tauri.studio/docs/api/js/interfaces/window.WindowOptions
+  const windowHeight = 320
   const webviewWindow = new WebviewWindow('ShortcutClipboardHistories', {
     url: '/shortcutClipboardHistories',
     title: '剪切板记录',
@@ -45,19 +51,19 @@ export async function initTauriApp({store}) {
     resizable: false,
     center: false,
     x: 0,
-    y: window.screen.height - 333,
+    y: window.screen.height - windowHeight,
     width: window.screen.width,
     minWidth: window.screen.width,
     maxWidth: window.screen.width,
-    height: 333,
-    minHeight: 333,
-    maxHeight: 333,
+    height: windowHeight,
+    minHeight: windowHeight,
+    maxHeight: windowHeight,
     visible: false
   })
   await globalShortcut.register("CmdOrControl+Shift+V", async () => {
     //console.log('CmdOrControl+Shift+V', window.screen.width)
     await webviewWindow.show()
-    await webviewWindow.setPosition(new LogicalPosition(0, window.screen.height - 360))
+    await webviewWindow.setPosition(new LogicalPosition(0, window.screen.height - windowHeight))
     await webviewWindow.setFocus()
     // https://tauri.studio/docs/api/js/classes/window.WebviewWindow#requestuserattention
     await webviewWindow.requestUserAttention()

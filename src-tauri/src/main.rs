@@ -3,7 +3,7 @@ all(not(debug_assertions), target_os = "windows"),
 windows_subsystem = "windows"
 )]
 
-use tauri::{Manager};
+use tauri::{Manager, UserAttentionType};
 use app::clipboard::{Clipboard, ContentValue as ClipboardContentValue, ImageData};
 use app::menu;
 use app::shell;
@@ -44,6 +44,7 @@ fn main() {
                 let window = app.get_window("main").unwrap();
                 window.show().unwrap();
                 window.set_focus().unwrap();
+                window.request_user_attention(Some(UserAttentionType::Critical)).unwrap();
             }
             // SystemTrayEvent::RightClick {
             //     position: _,
