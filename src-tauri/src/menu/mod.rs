@@ -2,12 +2,12 @@
 use tauri::{Menu, MenuItem, Submenu, CustomMenuItem};
 
 pub fn create_menu() -> Menu {
-    let about_menu = Submenu::new("DevTools", Menu::new()
-        .add_native_item(MenuItem::Hide)
-        .add_native_item(MenuItem::HideOthers)
-        .add_native_item(MenuItem::ShowAll)
-        .add_native_item(MenuItem::Separator)
-        .add_native_item(MenuItem::CloseWindow));
+    // let about_menu = Submenu::new("DevTools", Menu::new()
+    //     .add_native_item(MenuItem::Hide)
+    //     .add_native_item(MenuItem::HideOthers)
+    //     .add_native_item(MenuItem::ShowAll)
+    //     .add_native_item(MenuItem::Separator)
+    //     .add_native_item(MenuItem::CloseWindow));
         // .add_native_item(MenuItem::Quit));
 
     let edit_menu = Submenu::new("Edit", Menu::new()
@@ -19,15 +19,20 @@ pub fn create_menu() -> Menu {
         .add_native_item(MenuItem::Paste)
         .add_native_item(MenuItem::SelectAll));
 
-    let view_menu = Submenu::new("View", Menu::new()
-        .add_native_item(MenuItem::EnterFullScreen));
+    // let view_menu = Submenu::new("View", Menu::new()
+    //     .add_native_item(MenuItem::EnterFullScreen));
+    //
+    // let window_menu = Submenu::new("Window", Menu::new()
+    //     .add_native_item(MenuItem::Minimize)
+    //     .add_native_item(MenuItem::Zoom));
+    //
+    // let help_menu = Submenu::new("Help", Menu::new()
+    //     .add_item(CustomMenuItem::new("Learn More", "Learn More")));
 
-    let window_menu = Submenu::new("Window", Menu::new()
-        .add_native_item(MenuItem::Minimize)
-        .add_native_item(MenuItem::Zoom));
-
-    let help_menu = Submenu::new("Help", Menu::new()
-        .add_item(CustomMenuItem::new("Learn More", "Learn More")));
-
-    Menu::new().add_submenu(about_menu).add_submenu(edit_menu).add_submenu(view_menu).add_submenu(window_menu).add_submenu(help_menu)
+    Menu::new()
+        // .add_submenu(about_menu)
+        .add_submenu(edit_menu)
+        // .add_submenu(view_menu)
+        // .add_submenu(window_menu)
+        // .add_submenu(help_menu)
 }

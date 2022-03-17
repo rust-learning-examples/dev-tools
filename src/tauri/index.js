@@ -65,6 +65,7 @@ export async function initTauriApp({store}) {
     await webviewWindow.show()
     await webviewWindow.setPosition(new LogicalPosition(0, window.screen.height - windowHeight))
     await webviewWindow.setFocus()
+    await webviewWindow.setAlwaysOnTop()
     // https://tauri.studio/docs/api/js/classes/window.WebviewWindow#requestuserattention
     await webviewWindow.requestUserAttention()
   })
