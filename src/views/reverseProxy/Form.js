@@ -28,11 +28,11 @@ export default class _ extends Component {
         {/*    <Radio.Button value="proxy">反向代理</Radio.Button>*/}
         {/*  </Radio.Group>*/}
         {/*</Form.Item>*/}
-        <Form.Item name="target" label="目标地址" rules={[{ required: true, message: '请输入目标地址正则', },]}>
+        <Form.Item name="target" label="目标地址[正则]" rules={[{ required: true, message: '请输入目标地址正则', },]}>
           <Input placeholder="请输入目标地址正则"></Input>
         </Form.Item>
-        <Form.Item name="finalTarget" label="代理到地址" rules={[{ required: true, message: '请输入最终目标地址', },]}>
-          <Input placeholder="请输入目标地址正则"></Input>
+        <Form.Item name="finalTarget" label="代理到目标地址" rules={[{ required: true, message: '请输入代理到目标地址', },]}>
+          <Input placeholder="代理到目标地址"></Input>
         </Form.Item>
         <Form.Item name="remark" label="备注">
           <Input.TextArea showCount rows={2} placeholder="请输入备注"></Input.TextArea>

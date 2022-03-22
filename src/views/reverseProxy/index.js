@@ -105,19 +105,19 @@ export default connect(state => state)(withModal(class extends Component {
       onOk: async () => {},
       children: <div>
         <div className="redirect">
-          <div>302重定向: <Tag>{`http://127.0.0.1:${this.props.reverseProxy.port}/redirect/[yourRealLink]`}</Tag></div>
+          <div>302重定向：<Tag>{`http://127.0.0.1:${this.props.reverseProxy.port}/redirect/[yourRealLink]`}</Tag></div>
           <div><Tag>{`http://127.0.0.1:${this.props.reverseProxy.port}/redirect/https:://www.baidu.com/a?a=1 => https:://www.baidu.com/a?a=1`}</Tag></div>
         </div>
         <Divider></Divider>
         <div className="proxy">
-          <div>反向代理: <Tag>{`http://127.0.0.1:${this.props.reverseProxy.port}/proxy/[yourRealLink]`}</Tag></div>
+          <div>反向代理：<Tag>{`http://127.0.0.1:${this.props.reverseProxy.port}/proxy/[yourRealLink]`}</Tag></div>
           <div><Tag>{`http://127.0.0.1:${this.props.reverseProxy.port}/proxy/https:://www.baidu.com/a?a=1 => https:://www.baidu.com/a?a=1`}</Tag></div>
         </div>
         <Divider></Divider>
         <div className="config-proxy">
           <div>配置反向代理eg:</div>
-          <div>目标地址：<Tag>^https:://www.baidu.com</Tag></div>
-          <div>代理到目标地址: <Tag>https://www.taobao.com</Tag></div>
+          <div>目标地址[正则]：<Tag>^https:://www.baidu.com</Tag></div>
+          <div>代理到目标地址：<Tag>https://www.taobao.com</Tag></div>
           <div><Tag>{`http://127.0.0.1:${this.props.reverseProxy.port}/proxy/https:://www.baidu.com/a?a=1 => https:://www.taobao.com/a?a=1`}</Tag></div>
         </div>
       </div>
