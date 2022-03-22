@@ -20,6 +20,7 @@ export default defineRoutes([
   { path: 'clipboardHistories', component: () => import('../views/clipboardHistories') },
   { path: 'shortcutClipboardHistories', component: () => import('../views/shortcutClipboardHistories') },
   { path: 'scripts', component: () => import('../views/scripts') },
+  { path: 'reverseProxy', component: () => import('../views/reverseProxy') },
   { path: '/', extract: true, element: <Navigate replace to="/clipboardHistories" /> },
   { path: '*', element: <Navigate replace to="/404" /> },
 ])

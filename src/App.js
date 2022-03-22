@@ -14,6 +14,7 @@ function App(props) {
             [
               {path: '/clipboardHistories', name: '剪切板记录'},
               {path: '/scripts', name: '脚本'},
+              {path: '/reverseProxy', name: '反向代理'},
             ].map(route => (
               <Button key={route.path} size="small" type={location.pathname === route.path ? 'primary' : 'default'} onClick={() => navigate(route.path)}>
                 {route.name}

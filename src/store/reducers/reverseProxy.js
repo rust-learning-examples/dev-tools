@@ -4,6 +4,7 @@ import _ from 'lodash'
 import indexDBStorage from 'redux-persist-indexeddb-storage'
 
 const initData = {
+  port: 3999,
   data: []
 }
 
@@ -14,32 +15,53 @@ const initData = {
 //}
 
 const reducer = (state = {...initData}, action) => {
+  const date = new Date()
   switch (action.type) {
-    case 'addScriptItem':
+    case 'addReverseProxyItem':
       return {
         ...state,
         data: _.uniqBy([
           {
             ...action.payload,
-            key: md5(action.payload.shell),
-            date: new Date()
+            key: md5(`${date}`),
+            createdAt: date,
           },
           ...state.data,
         ], 'key')
       }
-    case 'delScriptItem':
+    case 'updateReverseProxyItem': {
+      const item = state.data.find(i => i.key === action.payload.key)
+      if (item) {
+        const idx = state.data.indexOf(item)
+        const data = [...state.data]
+        data.splice(idx, 1, {
+          ...action.payload,
+        })
+        return {
+          ...state,
+          data,
+        }
+      }
+      return state
+    }
+    case 'delReverseProxyItem':
       return {
         ...state,
         data: state.data.filter(i => i.key !== action.payload.key)
+      }
+    case 'updateReverseProxyPort':
+      return {
+        ...state,
+        port: action.payload
       }
     default:
       return state
   }
 }
 
-const scriptPersistConfig = {
-  key: 'script',
+const reverseProxyPersistConfig = {
+  key: 'reverseProxy',
   storage: indexDBStorage('devToolsIndexDB'),
 }
 
-export default persistReducer(scriptPersistConfig, reducer)
+export default persistReducer(reverseProxyPersistConfig, reducer)

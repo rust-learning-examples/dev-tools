@@ -1,5 +1,10 @@
 // https://tauri.studio/docs/guides/menu
-use tauri::{Menu, MenuItem, Submenu, CustomMenuItem};
+use tauri::{
+    Menu,
+    MenuItem,
+    Submenu,
+    // CustomMenuItem
+};
 
 pub fn create_menu() -> Menu {
     // let about_menu = Submenu::new("DevTools", Menu::new()
