@@ -90,7 +90,7 @@ export default connect(state => state)(withModal(class extends Component {
 
   async toggleServer() {
     this.setState({serverState: 'running'})
-    await invoke('toggle_reverse_proxy_server').catch(e => {
+    await invoke('start_reverse_proxy_server').catch(e => {
       this.setState({serverState: 'stopped'})
       notification.error({message: e.message})
     })
@@ -115,9 +115,9 @@ export default connect(state => state)(withModal(class extends Component {
         </div>
         <Divider></Divider>
         <div className="config-proxy">
-          <div>配置反向代理eg:</div>
-          <div>目标地址[正则]：<Tag>^https:://www.baidu.com</Tag></div>
-          <div>代理到目标地址：<Tag>https://www.taobao.com</Tag></div>
+          <div>自定义配置反向代理路径拦截替换eg:</div>
+          <div>目标地址[支持正则]：<Tag>^https:://www.baidu.com</Tag></div>
+          <div>替换地址：<Tag>https://www.taobao.com</Tag></div>
           <div><Tag>{`http://127.0.0.1:${this.props.reverseProxy.port}/proxy/https:://www.baidu.com/a?a=1 => https:://www.taobao.com/a?a=1`}</Tag></div>
         </div>
       </div>
@@ -137,7 +137,7 @@ export default connect(state => state)(withModal(class extends Component {
       title: '地址',
       dataIndex: 'target',
     }, {
-      title: '代理到地址',
+      title: '替换地址',
       dataIndex: 'finalTarget',
       render: (text, record) => <div>
         {record.finalTarget}

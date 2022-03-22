@@ -6,15 +6,16 @@ use axum::{
         Request,
         Response,
         uri::Uri,
-        HeaderValue
+        HeaderValue,
+        header,
     },
     // body::{Body},
     response::{IntoResponse, Redirect},
-    routing::{any},
+    routing,
     Router,
     extract::{Extension, Path, Query},
 };
-use tower_http::cors::{CorsLayer, Origin};
+use tower_http::cors::{self, CorsLayer};
 use hyper::{client::{Client, HttpConnector}, Body};
 use hyper_tls::HttpsConnector;
 use serde_json::{Value};
@@ -32,7 +33,7 @@ pub fn update_server_config_cell(value: Value) {
     *SERVER_CONFIG_CELL.lock().unwrap() = Some(value);
 }
 
-pub async fn toggle_reverse_proxy_server() -> Result<(), &'static str> {
+pub async fn start_reverse_proxy_server() -> Result<(), &'static str> {
     if SERVER_CONFIG_CELL.lock().unwrap().is_none() {
         return Err("no config");
     }
@@ -49,16 +50,18 @@ pub async fn toggle_reverse_proxy_server() -> Result<(), &'static str> {
     // build our application with a route
     let app = Router::new()
         // `GET /` goes to `root`
-        .route("/redirect/*__origin__", any(redirect_handler))
-        .route("/proxy/*__origin__", any(proxy_handler))
-        .layer(Extension(client))
+        .route("/redirect/*__origin__", routing::any(redirect_handler))
+        .route("/proxy/*__origin__", routing::any(proxy_handler))
         .layer(
             // see https://docs.rs/tower-http/latest/tower_http/cors/index.html
             // for more details
             CorsLayer::new()
-                .allow_origin(Origin::exact("*".parse().unwrap()))
-                .allow_methods(vec![Method::GET, Method::POST, Method::PUT, Method::DELETE]),
-        );
+                .allow_methods(vec![Method::GET, Method::POST, Method::PUT, Method::PATCH, Method::DELETE])
+                .allow_origin(cors::Any)
+                .allow_headers(vec![header::HeaderName::from_bytes(b"*").unwrap()])
+                .allow_credentials(false)
+        )
+        .layer(Extension(client));
 
     let addr = SocketAddr::from(([127, 0, 0, 1], port));
     match axum::Server::bind(&addr)
@@ -86,7 +89,7 @@ async fn proxy_handler(Path(origin): Path<String>, Extension(client): Extension<
     let target_uri = get_full_url(origin, &req);
     *req.uri_mut() = target_uri.clone();
     // 自定义追加header, 解决目标接口跨域限制
-    req.headers_mut().insert("HOST", HeaderValue::from_str(target_uri.host().unwrap()).unwrap());
+    req.headers_mut().insert(header::HOST, HeaderValue::from_str(target_uri.host().unwrap()).unwrap());
     client.request(req).await.unwrap()
 }
 

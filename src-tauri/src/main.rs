@@ -39,8 +39,8 @@ fn upload_reverse_proxy_config(config: serde_json::Value) {
 }
 
 #[tauri::command]
-async fn toggle_reverse_proxy_server() -> Result<(), &'static str> {
-    proxy::toggle_reverse_proxy_server().await
+async fn start_reverse_proxy_server() -> Result<(), &'static str> {
+    proxy::start_reverse_proxy_server().await
 }
 
 fn main() {
@@ -123,7 +123,7 @@ fn main() {
             // });
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![write_text_to_clipboard, write_image_to_clipboard, exec_shell_text, upload_reverse_proxy_config, toggle_reverse_proxy_server])
+        .invoke_handler(tauri::generate_handler![write_text_to_clipboard, write_image_to_clipboard, exec_shell_text, upload_reverse_proxy_config, start_reverse_proxy_server])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
