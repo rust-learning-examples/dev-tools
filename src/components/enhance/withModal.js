@@ -6,8 +6,7 @@ export default function withModal (WrappedComponent) {
     constructor (props) {
       super(...arguments)
       this.state = {
-        visible: false,
-        title: null
+        modalProps: { title: null, visible: false },
       }
     }
     //setTitle (title) {
@@ -17,28 +16,28 @@ export default function withModal (WrappedComponent) {
     //  this.setState({ visible: value })
     //}
     
-    openModal = (state) => this.setState({ ...state, visible: true, })
-    closeModal = () => this.setState({ visible: false })
+    openModal = (modalProps) => this.setState({ modalProps: {...modalProps, visible: true}, })
+    closeModal = () => this.setState({ modalProps: {visible: false} })
     onOk = async () => {
-      if (this.state.onOk) {
-        await this.state.onOk()
+      if (this.state.modalProps.onOk) {
+        await this.state.modalProps.onOk()
       }
       this.closeModal()
     }
     onCancel = async () => {
-      if (this.state.onCancel) {
-        await this.state.onCancel()
+      if (this.state.modalProps.onCancel) {
+        await this.state.modalProps.onCancel()
       }
       this.closeModal()
     }
     
     render() {
       const { openModal, closeModal, onOk, onCancel } = this
-      const modalProps = {...this.state, onOk, onCancel}
+      const modalProps = {...this.state.modalProps, onOk, onCancel}
       
       return <>
         <WrappedComponent modal={{openModal, closeModal}} {...this.props} />
-        { this.state.visible ? <Modal {...modalProps} /> : null }
+        { this.state.modalProps.visible ? <Modal {...modalProps} /> : null }
       </>
     }
   }
