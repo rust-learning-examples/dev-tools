@@ -2,7 +2,7 @@
 use axum::{
     http::{
         // StatusCode,
-        Method,
+        // Method,
         Request,
         Response,
         uri::Uri,
@@ -15,7 +15,10 @@ use axum::{
     Router,
     extract::{Extension, Path, Query},
 };
-use tower_http::cors::{self, CorsLayer};
+use tower_http::cors::{
+    self, 
+    CorsLayer
+};
 use hyper::{client::{Client, HttpConnector}, Body};
 use hyper_tls::HttpsConnector;
 use serde_json::{Value};
@@ -54,12 +57,16 @@ pub async fn start_reverse_proxy_server() -> Result<(), &'static str> {
         .route("/proxy/*__origin__", routing::any(proxy_handler))
         .layer(
             // see https://docs.rs/tower-http/latest/tower_http/cors/index.html
-            // for more details
+            // 自定义跨域信息
             CorsLayer::new()
-                .allow_methods(vec![Method::GET, Method::POST, Method::PUT, Method::PATCH, Method::DELETE])
-                .allow_origin(cors::Any)
+                .allow_methods(cors::Any)
+                // .allow_origin(cors::Any) // https://docs.rs/tower-http/0.2.5/tower_http/cors/struct.CorsLayer.html#method.allow_origin
+                .allow_origin(cors::Origin::predicate(|_origin: &HeaderValue, _request_head: &axum::http::request::Parts| true))
                 .allow_headers(vec![header::HeaderName::from_bytes(b"*").unwrap()])
+                .expose_headers(cors::Any)
                 .allow_credentials(false)
+            // 全量支持跨域信息, 目前有bug allow_credentials true 和 allow_origin: * 冲突
+            // CorsLayer::permissive() // https://docs.rs/tower-http/0.2.5/tower_http/cors/struct.CorsLayer.html#method.permissive
         )
         .layer(Extension(client));
 

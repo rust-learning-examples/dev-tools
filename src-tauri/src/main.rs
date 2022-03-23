@@ -9,6 +9,7 @@ use app::menu;
 use app::shell;
 use app::proxy;
 use app::tray::{self, SystemTrayEvent};
+use std::sync::Mutex;
 
 #[tauri::command]
 fn write_text_to_clipboard(text: String) -> Result<(), &'static str> {
@@ -38,9 +39,26 @@ fn upload_reverse_proxy_config(config: serde_json::Value) {
     proxy::update_server_config_cell(config);
 }
 
+lazy_static::lazy_static! {
+    // running stopped
+    static ref REVERSE_PROXY_SERVER_STATE: Mutex<String> = Mutex::new("stopped".to_string());
+}
 #[tauri::command]
 async fn start_reverse_proxy_server() -> Result<(), &'static str> {
-    proxy::start_reverse_proxy_server().await
+    *REVERSE_PROXY_SERVER_STATE.lock().unwrap() = "running".to_string();
+    match proxy::start_reverse_proxy_server().await {
+        Ok(()) => {
+            Ok(())
+        },
+        Err(e) => {
+            *REVERSE_PROXY_SERVER_STATE.lock().unwrap() = "stopped".to_string();
+            Err(e)
+        }
+    }
+}
+#[tauri::command]
+fn get_reverse_proxy_server_state() -> String {
+    REVERSE_PROXY_SERVER_STATE.lock().unwrap().to_string()
 }
 
 fn main() {
@@ -123,7 +141,7 @@ fn main() {
             // });
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![write_text_to_clipboard, write_image_to_clipboard, exec_shell_text, upload_reverse_proxy_config, start_reverse_proxy_server])
+        .invoke_handler(tauri::generate_handler![write_text_to_clipboard, write_image_to_clipboard, exec_shell_text, upload_reverse_proxy_config, start_reverse_proxy_server, get_reverse_proxy_server_state])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

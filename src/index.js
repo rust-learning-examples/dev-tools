@@ -20,19 +20,19 @@ async function startApp() {
     store
   }).then(() => {
     ReactDOM.render(
-      <React.StrictMode>
-        <AppContext.Provider value={{startApp}}>
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <Router>
-                <ConfigProvider locale={zhCN}>
-                  <App />
-                </ConfigProvider>
-              </Router>
-            </PersistGate>
-          </Provider>
-        </AppContext.Provider>
-      </React.StrictMode>,
+      //<React.StrictMode>
+      <AppContext.Provider value={{startApp}}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Router>
+              <ConfigProvider locale={zhCN}>
+                <App />
+              </ConfigProvider>
+            </Router>
+          </PersistGate>
+        </Provider>
+      </AppContext.Provider>,
+      //</React.StrictMode>,
       document.getElementById('root')
     );
   })

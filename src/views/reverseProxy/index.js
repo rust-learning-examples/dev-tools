@@ -27,6 +27,9 @@ export default connect(state => state)(withModal(class extends Component {
       // running stopped
       serverState: 'stopped'
     }
+    invoke('get_reverse_proxy_server_state').then((state) => {
+      this.setState({serverState: state});
+    })
   }
   async createRecord() {
     await this.updateRecord()
