@@ -124,10 +124,16 @@ fn main() {
                     for _exists_msg in rx {
                         if let Ok(text) = clipboard.get_text() {
                             // println!("text: {:?}", text);
-                            window_clone.emit("currentClipboardValue", ClipboardContentValue::Text(text)).unwrap();
+                            // TODO: 目前忽略掉 长度大于2 * 1000的文本
+                            if text.len() < 2 * 1000 {
+                                window_clone.emit("currentClipboardValue", ClipboardContentValue::Text(text)).unwrap();
+                            }
                         } else if let Ok(image) = clipboard.get_image() {
                             // println!("image");
-                            window_clone.emit("currentClipboardValue", ClipboardContentValue::Image(image)).unwrap();
+                            // TODO: 目前暂时忽略掉bytes 10 * 1000 的数据
+                            if image.bytes.len() < 10 * 1000 {
+                                window_clone.emit("currentClipboardValue", ClipboardContentValue::Image(image)).unwrap();
+                            }
                         }
                     }
                 }
