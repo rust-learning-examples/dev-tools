@@ -31,7 +31,7 @@ export async function initTauriApp({store}) {
   }
   
   // globalShortcut https://tauri.studio/docs/api/js/modules/globalShortcut
-  if (await globalShortcut.isRegistered("CmdOrControl+Shift+V")) {
+  if (await globalShortcut.isRegistered('CmdOrControl+Shift+V')) {
     await globalShortcut.unregister('CmdOrControl+Shift+V')
   }
   // new window  https://github.com/tauri-apps/tauri/issues/1643
@@ -65,7 +65,7 @@ export async function initTauriApp({store}) {
     await webviewWindow.show()
     await webviewWindow.setPosition(new LogicalPosition(0, window.screen.height - windowHeight))
     await webviewWindow.setFocus()
-    await webviewWindow.setAlwaysOnTop()
+    await webviewWindow.setAlwaysOnTop(true)
     // https://tauri.studio/docs/api/js/classes/window.WebviewWindow#requestuserattention
     await webviewWindow.requestUserAttention()
   })

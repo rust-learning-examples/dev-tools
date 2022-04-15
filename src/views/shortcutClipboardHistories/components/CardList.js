@@ -3,7 +3,7 @@ import { Card } from 'antd'
 import { WebviewWindow } from '@tauri-apps/api/window'
 import * as tauriEvent from '@tauri-apps/api/event'
 import * as notification from '@tauri-apps/api/notification'
-import * as globalShortcut from '@tauri-apps/api/globalShortcut'
+//import * as globalShortcut from '@tauri-apps/api/globalShortcut'
 import AppContext from '@/components/contexts/AppContext'
 import { writeTextToClipboard, writeImageToClipboard, } from '@/utils/libs/Clipboard'
 import moment from '@/utils/libs/moment'
@@ -44,7 +44,9 @@ export default class _ extends Component {
   
   hideWindow = async () => {
     if (this.scrollElRef?.current) this.scrollElRef.current.scrollLeft = 0
-    if (this.curWindow) await this.curWindow.hide()
+    if (this.curWindow) {
+      await this.curWindow.hide()
+    }
   }
   
   onScrollElWheel = (event) => {
@@ -58,13 +60,19 @@ export default class _ extends Component {
   
   componentDidMount () {
     withDragScroll(this.scrollElRef.current, {horizontal: true})
-    globalShortcut.isRegistered("ESC").then(async isRegistered => {
-      if (!isRegistered) {
-        await globalShortcut.register("ESC", async () => {
-          await this.hideWindow()
-        })
+    //globalShortcut.isRegistered("ESC").then(async isRegistered => {
+    //  if (!isRegistered) {
+    //    await globalShortcut.register("ESC", async () => {
+    //      await this.hideWindow()
+    //    })
+    //  }
+    //})
+    document.addEventListener('keyup', async event => {
+      //https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/key/Key_Values
+      if (event.key === 'Escape') {
+        await this.hideWindow()
       }
-    })
+    });
     // https://github.com/tauri-apps/tauri/blob/82b7f51/tooling/api/src/helpers/event.ts#L21
     this.curWindow?.listen('tauri://blur', async (...args) => {
       await this.hideWindow()
