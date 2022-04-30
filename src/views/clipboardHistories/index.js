@@ -130,7 +130,7 @@ export default connect(state => state)(withModal(class extends Component {
             <Button danger type="link">清空记录</Button>
           </Popconfirm>
           <AForm.Item label="最大记录数" style={{marginBottom: 0}}>
-            <InputNumber min={100} max={100 * 100} step={100} defaultValue={this.props.clipboardHistory.maxCount} onChange={value => this.props.dispatch({type: 'updateClipboardMaxCount', payload: value}) } />
+            <InputNumber min={10} max={100} step={1} defaultValue={this.props.clipboardHistory.maxCount} onChange={value => this.props.dispatch({type: 'updateClipboardMaxCount', payload: value}) } />
           </AForm.Item>
         </div>
       </div>

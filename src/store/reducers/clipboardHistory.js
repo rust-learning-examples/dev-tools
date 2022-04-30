@@ -4,7 +4,7 @@ import _ from 'lodash'
 import indexDBStorage from 'redux-persist-indexeddb-storage'
 
 const initData = {
-  maxCount: 1000,
+  maxCount: 30,
   data: []
 }
 
